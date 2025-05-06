@@ -63,105 +63,71 @@ void usart3_handler(void)               __attribute__((weak, alias("default_hand
 void exti15_10_handler(void)            __attribute__((weak, alias("default_handler")));
 void rtc_alarm_handler(void)            __attribute__((weak, alias("default_handler")));
 void usb_wakeup_handler(void)           __attribute__((weak, alias("default_handler")));
-void tim8_brk_handler(void)             __attribute__((weak, alias("default_handler")));
-void tim8_up_handler(void)              __attribute__((weak, alias("default_handler")));
-void tim8_trg_com_handler(void)         __attribute__((weak, alias("default_handler")));
-void tim8_cc_handler(void)              __attribute__((weak, alias("default_handler")));
-void adc3_handler(void)                 __attribute__((weak, alias("default_handler")));
-void fsmc_handler(void)                 __attribute__((weak, alias("default_handler")));
-void sdio_handler(void)                 __attribute__((weak, alias("default_handler")));
-void tim5_handler(void)                 __attribute__((weak, alias("default_handler")));
-void spi3_handler(void)                 __attribute__((weak, alias("default_handler")));
-void uart4_handler(void)                __attribute__((weak, alias("default_handler")));
-void uart5_handler(void)                __attribute__((weak, alias("default_handler")));
-void tim6_handler(void)                 __attribute__((weak, alias("default_handler")));
-void tim7_handler(void)                 __attribute__((weak, alias("default_handler")));
-void dma2_channel1_handler(void)        __attribute__((weak, alias("default_handler")));
-void dma2_channel2_handler(void)        __attribute__((weak, alias("default_handler")));
-void dma2_channel3_handler(void)        __attribute__((weak, alias("default_handler")));
-void dma2_channel4_5_handler(void)      __attribute__((weak, alias("default_handler")));
 
 // Vector table
-uint32_t isr_vector[ISR_VECTOR_SIZE_WORDS] __attribute__((section(".isr_vector"))) = {
-    STACK_POINTER_INIT_ADDRESS,
-    (uint32_t)&reset_handler,
-    (uint32_t)&nmi_handler,
-    (uint32_t)&hard_fault_handler,
-    (uint32_t)&mem_manage_handler,
-    (uint32_t)&bus_fault_handler,
-    (uint32_t)&usage_fault_handler,
-    0,
-    0,
-    0,
-    0,
-    (uint32_t)&svcall_handler,
-    (uint32_t)&debug_monitor_handler,
-    0,
-    (uint32_t)&pendsv_handler,
-    (uint32_t)&systick_handler,
-    (uint32_t)&wwdg_handler,
-    (uint32_t)&pvd_handler,
-    (uint32_t)&tamper_handler,
-    (uint32_t)&rtc_handler,
-    (uint32_t)&flash_handler,
-    (uint32_t)&rcc_handler,
-    (uint32_t)&exti0_handler,
-    (uint32_t)&exti1_handler,
-    (uint32_t)&exti2_handler,
-    (uint32_t)&exti3_handler,
-    (uint32_t)&exti4_handler,
-    (uint32_t)&dma1_channel1_handler,
-    (uint32_t)&dma1_channel2_handler,
-    (uint32_t)&dma1_channel3_handler,
-    (uint32_t)&dma1_channel4_handler,
-    (uint32_t)&dma1_channel5_handler,
-    (uint32_t)&dma1_channel6_handler,
-    (uint32_t)&dma1_channel7_handler,
-    (uint32_t)&adc1_2_handler,
-    (uint32_t)&usb_hp_can_tx_handler,
-    (uint32_t)&usb_lp_can_rx0_handler,
-    (uint32_t)&can_rx1_handler,
-    (uint32_t)&can_sce_handler,
-    (uint32_t)&exti9_5_handler,
-    (uint32_t)&tim1_brk_handler,
-    (uint32_t)&tim1_up_handler,
-    (uint32_t)&tim1_trg_com_handler,
-    (uint32_t)&tim1_cc_handler,
-    (uint32_t)&tim2_handler,
-    (uint32_t)&tim3_handler,
-    (uint32_t)&tim4_handler,
-    (uint32_t)&i2c1_ev_handler,
-    (uint32_t)&i2c1_er_handler,
-    (uint32_t)&i2c2_ev_handler,
-    (uint32_t)&i2c2_er_handler,
-    (uint32_t)&spi1_handler,
-    (uint32_t)&spi2_handler,
-    (uint32_t)&usart1_handler,
-    (uint32_t)&usart2_handler,
-    (uint32_t)&usart3_handler,
-    (uint32_t)&exti15_10_handler,
-    (uint32_t)&rtc_alarm_handler,
-    (uint32_t)&usb_wakeup_handler,
-    (uint32_t)&tim8_brk_handler,
-    (uint32_t)&tim8_up_handler,
-    (uint32_t)&tim8_trg_com_handler,
-    (uint32_t)&tim8_cc_handler,
-    (uint32_t)&adc3_handler,
-    (uint32_t)&fsmc_handler,
-    (uint32_t)&sdio_handler,
-    (uint32_t)&tim5_handler,
-    (uint32_t)&spi3_handler,
-    (uint32_t)&uart4_handler,
-    (uint32_t)&uart5_handler,
-    (uint32_t)&tim6_handler,
-    (uint32_t)&tim7_handler,
-    (uint32_t)&dma2_channel1_handler,
-    (uint32_t)&dma2_channel2_handler,
-    (uint32_t)&dma2_channel3_handler,
-    (uint32_t)&dma2_channel4_5_handler
+const uint32_t* isr_vector[ISR_VECTOR_SIZE_WORDS] __attribute__((section(".isr_vector"))) = {
+  (uint32_t*)STACK_POINTER_INIT_ADDRESS,
+  (uint32_t*)&reset_handler,
+  (uint32_t*)&nmi_handler,
+  (uint32_t*)&hard_fault_handler,
+  (uint32_t*)&mem_manage_handler,
+  (uint32_t*)&bus_fault_handler,
+  (uint32_t*)&usage_fault_handler,
+  0,
+  0,
+  0,
+  0,
+  (uint32_t*)&svcall_handler,
+  (uint32_t*)&debug_monitor_handler,
+  0,
+  (uint32_t*)&pendsv_handler,
+  (uint32_t*)&systick_handler,
+  (uint32_t*)&wwdg_handler,
+  (uint32_t*)&pvd_handler,
+  (uint32_t*)&tamper_handler,
+  (uint32_t*)&rtc_handler,
+  (uint32_t*)&flash_handler,
+  (uint32_t*)&rcc_handler,
+  (uint32_t*)&exti0_handler,
+  (uint32_t*)&exti1_handler,
+  (uint32_t*)&exti2_handler,
+  (uint32_t*)&exti3_handler,
+  (uint32_t*)&exti4_handler,
+  (uint32_t*)&dma1_channel1_handler,
+  (uint32_t*)&dma1_channel2_handler,
+  (uint32_t*)&dma1_channel3_handler,
+  (uint32_t*)&dma1_channel4_handler,
+  (uint32_t*)&dma1_channel5_handler,
+  (uint32_t*)&dma1_channel6_handler,
+  (uint32_t*)&dma1_channel7_handler,
+  (uint32_t*)&adc1_2_handler,
+  (uint32_t*)&usb_hp_can_tx_handler,
+  (uint32_t*)&usb_lp_can_rx0_handler,
+  (uint32_t*)&can_rx1_handler,
+  (uint32_t*)&can_sce_handler,
+  (uint32_t*)&exti9_5_handler,
+  (uint32_t*)&tim1_brk_handler,
+  (uint32_t*)&tim1_up_handler,
+  (uint32_t*)&tim1_trg_com_handler,
+  (uint32_t*)&tim1_cc_handler,
+  (uint32_t*)&tim2_handler,
+  (uint32_t*)&tim3_handler,
+  (uint32_t*)&tim4_handler,
+  (uint32_t*)&i2c1_ev_handler,
+  (uint32_t*)&i2c1_er_handler,
+  (uint32_t*)&i2c2_ev_handler,
+  (uint32_t*)&i2c2_er_handler,
+  (uint32_t*)&spi1_handler,
+  (uint32_t*)&spi2_handler,
+  (uint32_t*)&usart1_handler,
+  (uint32_t*)&usart2_handler,
+  (uint32_t*)&usart3_handler,
+  (uint32_t*)&exti15_10_handler,
+  (uint32_t*)&rtc_alarm_handler,
+  (uint32_t*)&usb_wakeup_handler
 };
 
-extern uint32_t _etext, _sdata, _edata, _sbss, _ebss, _sidata;
+extern uint32_t _sdata, _edata, _sbss, _ebss, _sidata;
 void main(void);
 
 void reset_handler(void)
@@ -177,10 +143,10 @@ void reset_handler(void)
   }
 
   // Zero-fill .bss section in SRAM
-  uint32_t bss_size = (uint32_t)&_ebss - (uint32_t)&_sbss;
-  uint32_t *bss = (uint32_t*) &_sbss;
+  uint32_t bss_size_words = ((uint32_t)&_ebss - (uint32_t)&_sbss) / sizeof(uint32_t);
+  uint32_t *bss = (uint32_t*)&_sbss;
 
-  for (uint32_t i = 0; i < bss_size; i++)
+  for (uint32_t i = 0; i < bss_size_words; i++)
   {
     bss[i] = 0;
   }

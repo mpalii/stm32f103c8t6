@@ -41,7 +41,7 @@ void main(void)
 
 
 
-/*  
+/*
 
 // WORKS GREAT!!!
 
@@ -73,13 +73,45 @@ int main(void) {
 
     while (1) {
         GPIOC_BSRR = (1 << 13);      // Set PC13 HIGH (LED OFF on Blue Pill)
-        delay(1000000);              // Delay
+        delay(250000);              // Delay
 
         GPIOC_BSRR = (1 << (13 + 16)); // Reset PC13 LOW (LED ON)
-        delay(1000000);                // Delay
+        delay(250000);                // Delay
     }
 }
 
 */
+
+#define PERIPH_BASE     0x40000000
+#define APB2PERIPH_BASE (PERIPH_BASE + 0x10000)
+#define AHBPERIPH_BASE  (PERIPH_BASE + 0x20000)
+
+#define RCC_BASE   (AHBPERIPH_BASE + 0x00001000)
+#define GPIOC_BASE (APB2PERIPH_BASE + 0x00001000)
+
+#define RCC_APB2ENR  (*(volatile unsigned int*)(RCC_BASE + 0x18))
+#define GPIOC_ODR    (*(volatile unsigned int*)(GPIOC_BASE + 0x0C))  // Output data register for GPIOC
+#define GPIOC_CRH    (*(volatile unsigned int*)(GPIOC_BASE + 0x04))  // Configuration register for GPIOC
+
+void delay(volatile unsigned int count) {
+    while (count--) {
+        __asm__("nop");  // No Operation (ensures accurate delay)
+    }
+}
+
+int main(void) {
+    // Enable GPIOC Clock
+    RCC_APB2ENR |= (1 << 4);  // Enable GPIOC (Bit 4 in APB2ENR)
+
+    // Configure PC13 as output (Push-Pull, 2MHz speed)
+    GPIOC_CRH &= ~(0xF << 20);  // Clear CNF and MODE bits for PC13
+    GPIOC_CRH |=  (0x1 << 20);  // MODE13 = 01 (Output mode, max speed 10 MHz)
+                                // CNF13  = 00 (General purpose output push-pull)
+
+    while (1) {
+        GPIOC_ODR ^= (1 << 13);  // Toggle PC13 using XOR (LED state changes)
+        delay(100000);           // Delay to make the toggle visible (for blinking)
+    }
+}
 
 

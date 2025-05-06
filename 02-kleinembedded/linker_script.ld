@@ -2,8 +2,8 @@ ENTRY(reset_handler)
 
 MEMORY
 {
-	FLASH (rx): ORIGIN = 0x08000000, LENGTH = 128K
-	SRAM (rwx): ORIGIN = 0x20000000, LENGTH = 32K
+	FLASH (rx): ORIGIN = 0x08000000, LENGTH = 64K
+	SRAM (rwx): ORIGIN = 0x20000000, LENGTH = 20K
 }
 
 SECTIONS
@@ -21,7 +21,6 @@ SECTIONS
     *(.rodata)
 		
     . = ALIGN(4);
-    _etext = .;
   } >FLASH
 
   _sidata = LOADADDR(.data);
